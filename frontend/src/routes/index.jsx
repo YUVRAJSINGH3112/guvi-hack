@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+
 import Home from '../pages/Home';
 import Events from '../pages/Events';
 import Clubs from '../pages/Clubs';
@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <ProtectedRoute element={<Home />} /> },
+      { index: true, element: <ProtectedRoute element={<Home />}/> },
       { path: 'events', element: <ProtectedRoute element={<Events />} /> },
       { path: 'clubs', element: <ProtectedRoute element={<Clubs />} /> },
       { path: 'login', element: <Login /> },

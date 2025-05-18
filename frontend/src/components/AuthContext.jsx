@@ -4,19 +4,21 @@ import Cookies from 'js-cookie';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
     const token = Cookies.get('token');
-    setIsAuthenticated(!!token);
+    console.log(token)
+    setIsAuthenticated(!!token); 
   }, []);
 
   const login = () => {
-    setIsAuthenticated(true);
+      setIsAuthenticated(true); // No need to set cookies here, backend handles it
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
+      Cookies.remove('token'); // Remove token from cookies
+      setIsAuthenticated(false);
   };
 
   return (
