@@ -1,30 +1,26 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const feedbackSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true
-    },
-    category:{
-        type: String,
-        enum: ['positive', 'negative', 'neutral'],
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
     },
-    feedback: {
-        type: String,
-        required: true,
-        trim: true
+    eventId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Event",
+        required: true
     },
-    rating: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 5
+    feedbackText: {
+        type: String,
+        required: true
     },
     sentimentScore: {
         type: Number,
+        required: true
+    },
+    category: {
+        type: String,
         required: true
     },
     createdAt: {
@@ -33,6 +29,4 @@ const feedbackSchema = new mongoose.Schema({
     }
 });
 
-const Feedback = mongoose.model('feedback', feedbackSchema);
-
-module.exports = Feedback;
+module.exports = mongoose.model("Feedback", feedbackSchema);

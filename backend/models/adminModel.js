@@ -13,7 +13,8 @@ const adminSchema = new mongoose.Schema({
     adminCode: {
         type: String,
         required: true
-    }
+    },
+    role: admin 
 });
 
 module.exports = mongoose.model('admin', adminSchema);

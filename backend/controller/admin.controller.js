@@ -25,8 +25,6 @@ module.exports.login = async (req, res) => {
 		if (!isPasswordValid|| !isAdminCodeValid) {
 			return res.status(401).json({ message: "Invalid credentials." });
 		}
-
-		// Generate JWT token
 		const token = jwt.sign(
 			{ id: admin._id, email: admin.email },
 			process.env.JWT_SECRET,

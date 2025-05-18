@@ -37,7 +37,7 @@ const Login = () => {
             alert('Please fill in all fields');
             return;
         }
-         loginUser();
+        loginUser();
         setEmail('');
         setPassword('');
     };

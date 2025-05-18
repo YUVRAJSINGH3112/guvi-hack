@@ -13,11 +13,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = () => {
-      setIsAuthenticated(true); // No need to set cookies here, backend handles it
+      setIsAuthenticated(true); it
   };
 
   const logout = () => {
-      Cookies.remove('token'); // Remove token from cookies
+      Cookies.remove('token');
       setIsAuthenticated(false);
   };
 

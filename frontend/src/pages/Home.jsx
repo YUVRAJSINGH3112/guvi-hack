@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import RecentFeedBack from '../components/RecentFeedBack';
+import Feedback from '../components/FeedBack';
 const Home = () => {
   const [user, setUser] =useState(null)
   useEffect(() => {
@@ -16,8 +17,11 @@ const Home = () => {
         <p className='mt-4 text-lg text-gray-700'>Shape the change, one feedback at a time</p>
       </div>
        <div>
-        <div className='mt-4'>
+        <div className='mt-4 w-full'>
           <RecentFeedBack/>
+          <div className='flex justify-evenly items-center'>
+            <Feedback/>
+          </div>
         </div>
        </div>
     </div>

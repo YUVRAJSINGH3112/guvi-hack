@@ -11,7 +11,6 @@ module.exports.login = async (req, res) => {
 			return res.status(400).json({ message: "Email and password are required." });
 		}
 
-		// Check if user exists
 		let user = await userModel.findOne({ email });
 		if (!user) {
 			// If user doesn't exist, create a new user
@@ -27,7 +26,7 @@ module.exports.login = async (req, res) => {
 
 		// Generate JWT token
 		const token = jwt.sign(
-			{ id: user._id, email: user.email },
+			{ id: user._id, email: user.email,role: user.role },
 			process.env.JWT_SECRET,
 			{ expiresIn: "1d" }
 		);
