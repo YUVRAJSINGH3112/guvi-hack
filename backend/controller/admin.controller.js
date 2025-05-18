@@ -1,51 +1,47 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const userModel = require("../models/userModel");
-
-
+const adminModel = require('../models/adminModel');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 module.exports.login = async (req, res) => {
 	try {
-		const {email, password} = req.body;
+		const {email, password,adminCode} = req.body;
+        console.log("Login request received:", req.body); 
 
-		if (!email || !password) {
-			return res.status(400).json({ message: "Email and password are required." });
+		if (!email || !password||!adminCode) {
+			return res.status(400).json({ message: "Email, password and Admin Code are required." });
 		}
 
-		// Check if user exists
-		let user = await userModel.findOne({ email });
-		if (!user) {
-			// If user doesn't exist, create a new user
+		let admin = await adminModel.findOne({ email });
+		if (!admin) {
+            if(adminCode !== process.env.ADMIN_CODE) {
+                return res.status(401).json({ message: "Invalid admin code." });
+            }
 			const hashedPassword = await bcrypt.hash(password, 10); 
-			user = await userModel.create({ email, password: hashedPassword });
+			admin = await adminModel.create({ email, password: hashedPassword ,adminCode});
 		}
 
 		// Compare passwords
-		const isPasswordValid = await bcrypt.compare(password, user.password);
-		if (!isPasswordValid) {
+        const isAdminCodeValid = admin.adminCode === adminCode;
+		const isPasswordValid = await bcrypt.compare(password, admin.password);
+		if (!isPasswordValid|| !isAdminCodeValid) {
 			return res.status(401).json({ message: "Invalid credentials." });
 		}
 
 		// Generate JWT token
 		const token = jwt.sign(
-			{ id: user._id, email: user.email },
+			{ id: admin._id, email: admin.email },
 			process.env.JWT_SECRET,
 			{ expiresIn: "1d" }
 		);
 
-		res.cookie("token", token, {
-    			httpOnly: true,
-    			secure: false,    
-    			sameSite: "Lax",  
-    			maxAge: 24 * 60 * 60 * 1000  
-		});
-
+		// Respond with token and admin details
 		return res.status(200).json({
 			message: "Login successful.",
 			token,
-			user: {
-				id: user._id,
-				email: user.email,
-				name: user.name,
+			admin: {
+				id: admin._id,
+				email: admin.email,
+				name: admin.name,
+                adminCode: admin.adminCode,
 			},
 		});
 	} catch (error) {
@@ -73,15 +69,15 @@ module.exports.profile = async (req, res) => {
 
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decoded.id;
+        const adminId = decoded.id;
 
-        // Fetch user details from the database
-        const user = await userModel.findById(userId).select("-password");
-        if (!user) {
-            return res.status(404).json({ message: "User not found." });
+        // Fetch admin details from the database
+        const admin = await adminModel.findById(adminId).select("-password");
+        if (!admin) {
+            return res.status(404).json({ message: "admin not found." });
         }
 
-        return res.status(200).json({ user });
+        return res.status(200).json({ admin });
     } catch (error) {
         console.error("Profile error:", error);
         return res.status(500).json({ message: "An error occurred while fetching profile." });
