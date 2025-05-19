@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 
 export default function Layout() {
   const location = useLocation();
-  const hideNavbar = location.pathname === '/login'||location.pathname === '/adminlogin';
+  const hideNavbar = location.pathname === '/login'||location.pathname === '/adminlogin'||location.pathname === '/admindashboard';
   return (
     <div className="min-h-screen flex flex-col">
       {!hideNavbar && <Navbar />}

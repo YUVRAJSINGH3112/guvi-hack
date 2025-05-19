@@ -9,7 +9,7 @@ import Layout from '../components/Layout';
 import Login from '../pages/Login';
 import AdminLogin from '../pages/adminLogin';
 import ProtectedRoute from '../components/ProtectedRoute';
-import AdminDashboard from '../pages/AdminDashboard';
+import AdminDashboard from '../pages/adminDashboard';
 
 export const router = createBrowserRouter([
   {
