@@ -53,5 +53,21 @@ router.get('/getFeedback', async (req, res) => {
     }
   });
   
+router.delete("/delete/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedEvent = await Event.findByIdAndDelete(id);
+
+        if (!deletedEvent) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+
+        res.json({ message: "Event deleted successfully", id: deletedEvent._id });
+    } catch (error) {
+        console.error("Error deleting event:", error);
+        res.status(500).json({ message: "Failed to delete event" });
+    }
+});
 
 module.exports = router;
