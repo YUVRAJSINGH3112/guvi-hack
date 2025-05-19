@@ -13,7 +13,7 @@ const Login = () => {
 
     const loginUser = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/user/login', {
+            const response = await axios.post('https://guvi-hack.onrender.com/user/login', {
                 email,
                 password,
             },{

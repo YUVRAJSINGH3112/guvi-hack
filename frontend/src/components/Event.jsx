@@ -10,7 +10,7 @@ const Event = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:3000/event/events');
+        const response = await fetch('https://guvi-hack.onrender.com/event/events');
         if (!response.ok) {
           throw new Error('Failed to fetch events');
         }
@@ -26,39 +26,68 @@ const Event = () => {
     fetchEvents();
   }, []);
 
-  const handleEventClick = async (eventId) => {
-    setSelectedEvent(eventId);
+  const handleFormSubmit = async (updatedEvent) => {
     try {
-      const response = await fetch(`http://localhost:3000/events`); // Replace with your API URL
-      if (!response.ok) {
-        throw new Error('Failed to fetch feedback');
+      if (editingEvent && editingEvent._id) {
+        const response = await fetch("https://guvi-hack.onrender.com/event/update/${editingEvent._id}", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedEvent),
+        });
+
+        const updatedData = await response.json();
+
+        if (response.ok) {
+          setEvents((prevEvents) =>
+            prevEvents.map((event) =>
+              event._id === editingEvent._id ? updatedData : event
+            )
+          );
+        }
+      } else {
+        const response = await fetch("https://guvi-hack.onrender.com/event/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedEvent),
+        });
+
+        const newEvent = await response.json();
+
+        if (response.ok) {
+          setEvents([...events, newEvent]);
+        }
       }
-      const data = await response.json();
-      setFeedback(data);
-    } catch (err) {
-      console.error('Error fetching feedback:', err);
+
+      setEditingEvent(null);
+    } catch (error) {
+      console.error("Error saving event:", error);
     }
   };
 
   const handleDelete = async (eventId) => {
-    console.log("Event ID to delete:", eventId);  
     try {
-      const response = await fetch(`http://localhost:3000/event/delete/${eventId}`, {
-        method: "DELETE",
-      });
+        console.log("Event ID to delete:", eventId);  // 👈 Yaha daalo
 
-      const data = await response.json();
+        const response = await fetch(`https://guvi-hack.onrender.com/event/delete/${eventId}`, {
+            method: "DELETE",
+        });
 
-      if (response.ok) {
-        setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
-        console.log("Deleted:", data.message);
-      } else {
-        console.error("Delete failed:", data.message);
-      }
+        const data = await response.json();
+
+        if (response.ok) {
+            setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
+            console.log("Deleted:", data.message);
+        } else {
+            console.error("Delete failed:", data.message);
+        }
     } catch (error) {
-      console.error("Error deleting event:", error);
+        console.error("Error deleting event:", error);
     }
-  };
+};
 
   if (loading) return <div className="text-center text-lg font-semibold">Loading...</div>;
   if (error) return <div className="text-center text-red-500 font-semibold">Error: {error}</div>;
@@ -112,6 +141,5 @@ const Event = () => {
       </ul>
     </div>
   );
-};
-
+}
 export default Event;

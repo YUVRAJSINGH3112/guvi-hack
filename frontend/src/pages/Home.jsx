@@ -4,7 +4,7 @@ import Feedback from '../components/FeedBack';
 const Home = () => {
   const [user, setUser] =useState(null)
   useEffect(() => {
-    fetch('http://localhost:3000/user/profile')
+    fetch('https://guvi-hack.onrender.com/user/profile')
       .then(response => response.json())
       .then(data => setUser(data))
       .catch(error => console.error('Error fetching user data:', error));

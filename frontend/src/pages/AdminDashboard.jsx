@@ -8,7 +8,7 @@ const AdminDashboard = () => {
     useEffect(() => {
         const getFeedback = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/feedback/getFeedback');
+                const response = await axios.get('https://guvi-hack.onrender.com/feedback/getFeedback');
                 setFeedback(response.data);
             } catch (error) {
                 console.error("Error fetching feedback:", error);

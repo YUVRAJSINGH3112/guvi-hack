@@ -8,7 +8,7 @@ const Feedback = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const response =await axios.post("http://localhost:3000/feedback/submit", {
+        const response =await axios.post("https://guvi-hack.onrender.com/feedback/submit", {
             title,
             feedbackText: description
         });        
