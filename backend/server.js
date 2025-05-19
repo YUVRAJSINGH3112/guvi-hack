@@ -20,7 +20,7 @@ app.use(cookieParser())
 app.use('/user',userRoutes)
 app.use('/admin',adminRoutes)
 app.use('/feedback',feedbackRoute)
-qpp.use('events',eventRoutes)
+app.use('/event',eventRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on http://localhost:${process.env.PORT}`);

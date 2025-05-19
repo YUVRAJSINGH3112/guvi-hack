@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 
 const Feedback = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [feedbackdata,setFeedBackData]=useState([])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log({ title, description });  // Replace with API call
+        const response =await axios.post("http://localhost:3000/feedback/submit", {
+            title,
+            feedbackText: description
+        });        
+        setFeedBackData(response.data.feedback)
         setTitle('');
         setDescription('');
     };
 
     return (
         <div className=" flex-grow self-start max-w-lg mx-auto mt-10 p-6 border rounded-lg shadow-md bg-white">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Complaint</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">College Feedback</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block text-gray-700 font-semibold mb-2" htmlFor="title">Title</label>

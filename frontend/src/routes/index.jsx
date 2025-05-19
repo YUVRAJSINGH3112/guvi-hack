@@ -9,6 +9,7 @@ import Layout from '../components/Layout';
 import Login from '../pages/Login';
 import AdminLogin from '../pages/adminLogin';
 import ProtectedRoute from '../components/ProtectedRoute';
+import AdminDashboard from '../pages/AdminDashboard';
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
       { path: 'events', element: <ProtectedRoute element={<Events />} /> },
       { path: 'clubs', element: <ProtectedRoute element={<Clubs />} /> },
       { path: 'login', element: <Login /> },
+      { path: 'admindashboard', element: <AdminDashboard/> },
       { path: 'adminlogin', element: <AdminLogin/> },
       { path: '*', element: <NotFound /> },
     ],

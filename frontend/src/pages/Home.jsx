@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import RecentFeedBack from '../components/RecentFeedBack';
+import RecentEvent from '../components/RecentEvent';
 import Feedback from '../components/FeedBack';
 const Home = () => {
   const [user, setUser] =useState(null)
@@ -18,7 +18,7 @@ const Home = () => {
       </div>
        <div>
         <div className='mt-4 w-full'>
-          <RecentFeedBack/>
+          <RecentEvent/>
           <div className='flex justify-evenly items-center'>
             <Feedback/>
           </div>
