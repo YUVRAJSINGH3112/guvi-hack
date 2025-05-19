@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const adminLogin = () => {
+const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [adminCode, setAdminCode] = useState('');
@@ -61,4 +61,4 @@ const adminLogin = () => {
     );
 };
 
-export default adminLogin;
+export default AdminLogin;
